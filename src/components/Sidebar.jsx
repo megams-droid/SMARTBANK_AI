@@ -13,7 +13,8 @@ import {
   UserCog, 
   History, 
   FileSpreadsheet,
-  AlertOctagon
+  AlertOctagon,
+  Code2
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, userRole }) {
@@ -31,7 +32,8 @@ export default function Sidebar({ activeTab, setActiveTab, userRole }) {
     { id: 'alerts-page', label: 'Alert Center', icon: AlertOctagon },
     { id: 'admin', label: 'Analyst & Admin Portal', icon: UserCog },
     { id: 'audit-logs', label: 'Audit Trail Logs', icon: History },
-    { id: 'reports', label: 'Financial & Security Reports', icon: FileSpreadsheet }
+    { id: 'reports', label: 'Financial & Security Reports', icon: FileSpreadsheet },
+    { id: 'java-architecture', label: 'Java Architecture & SQL', icon: Code2, badge: 'SPEC' }
   ];
 
   return (

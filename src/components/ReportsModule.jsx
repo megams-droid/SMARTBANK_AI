@@ -25,14 +25,21 @@ export default function ReportsModule({ financialSummary, transactions, alerts, 
       {/* Report Document Preview */}
       <div className="card" style={{ padding: '2.5rem', background: '#ffffff', color: '#0f172a', border: '1px solid #cbd5e1' }}>
         {/* Report Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '2px solid #2563eb', paddingBottom: '1rem', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '2px solid #2563eb', paddingBottom: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
             <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#2563eb' }}>SmartBank AI — Official Audit Report</h1>
             <p style={{ fontSize: '0.8rem', color: '#64748b' }}>Generated on: {new Date().toLocaleDateString()} | System Engine: Explainable AI v2.4</p>
+            <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: '#334155', fontWeight: 600 }}>
+              <span>Developer: <strong>MEGA SREE MS</strong> (Reg No: <strong>711525BCS092</strong>)</span><br />
+              <span>Dept: <strong>CSE-C</strong> | <strong>Kalaignarkarunanidhi Institute of Technology, Coimbatore</strong> (2025–2029)</span>
+            </div>
           </div>
           <div style={{ textAlign: 'right' }}>
             <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b' }}>SECURITY SCORE</p>
             <p style={{ fontSize: '1.5rem', fontWeight: 800, color: '#059669' }}>{securityScore} / 100</p>
+            <span style={{ fontSize: '0.7rem', padding: '0.2rem 0.5rem', background: '#dcfce7', color: '#166534', borderRadius: '4px', fontWeight: 700 }}>
+              VERIFIED SECURE
+            </span>
           </div>
         </div>
 

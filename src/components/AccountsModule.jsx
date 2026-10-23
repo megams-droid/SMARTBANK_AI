@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Wallet, Send, ShieldAlert, CheckCircle2, AlertTriangle, Plus, ArrowUpRight } from 'lucide-react';
 import { evaluateTransactionRisk } from '../services/explainableAI';
 import { playAlertSound } from '../services/AudioAlert';
+import { api } from '../services/api';
 
 export default function AccountsModule({ 
   accounts, 
@@ -61,6 +62,15 @@ export default function AccountsModule({
       riskScore: evaluation.riskScore,
       riskLevel: evaluation.riskLevel
     });
+
+    // Sync with backend API
+    api.transferFunds({
+      fromAccountId: accounts[0]?.id || 'ACC-01',
+      beneficiaryName: recipient,
+      amount: Number(amount),
+      isNewBeneficiary,
+      isUnfamiliarDevice
+    }).catch(() => {});
 
     setAmount('');
   };

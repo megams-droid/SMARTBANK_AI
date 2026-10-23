@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Flame, ShieldAlert, FileSearch, Lock, GitMerge, CheckCircle2, ArrowRight, Play, AlertOctagon } from 'lucide-react';
 import { playAlertSound } from '../services/AudioAlert';
+import { api } from '../services/api';
 
 export default function ThreatLab({ onTriggerAlert, onAddIncident, onAddAuditLog }) {
   const [activeSimulation, setActiveSimulation] = useState(null);
@@ -102,6 +103,18 @@ export default function ThreatLab({ onTriggerAlert, onAddIncident, onAddAuditLog
       riskLevel: simData.severity,
       details: simData.detectedEvent
     });
+
+    // Notify backend simulation engine
+    const scenarioMap = {
+      FRAUD: 'FRAUD_BURST',
+      PHISHING: 'PHISHING_ATTACK',
+      MALWARE: 'MALWARE_DROP',
+      RANSOMWARE: 'RANSOMWARE_CANARY',
+      ATO: 'ATO_SEQUENCE'
+    };
+    if (scenarioMap[type]) {
+      api.simulateAttack(scenarioMap[type]).catch(() => {});
+    }
   };
 
   return (

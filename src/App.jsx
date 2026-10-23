@@ -16,6 +16,7 @@ import SecurityCenter from './components/SecurityCenter';
 import AdminDashboard from './components/AdminDashboard';
 import AuditLogs from './components/AuditLogs';
 import ReportsModule from './components/ReportsModule';
+import JavaArchitectureViewer from './components/JavaArchitectureViewer';
 
 import { 
   INITIAL_USER, 
@@ -31,17 +32,24 @@ import {
 } from './services/mockData';
 import { voiceEngine } from './services/voiceEngine';
 import { playAlertSound } from './services/AudioAlert';
+import { api } from './services/api';
 
 export default function App() {
   // 1. Theme State (DEFAULT TO LIGHT / WHITE MODE AS REQUESTED BY USER)
   const [theme, setTheme] = useState('light');
 
   // 2. Navigation Tab State
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const p = new URLSearchParams(window.location.search).get('tab');
+      if (p) return p;
+    }
+    return 'dashboard';
+  });
   const [userRole, setUserRole] = useState('CUSTOMER'); // CUSTOMER, ANALYST, ADMIN
 
   // 3. Application Data State
-  const [user] = useState(INITIAL_USER);
+  const [user, setUser] = useState(INITIAL_USER);
   const [accounts, setAccounts] = useState(INITIAL_ACCOUNTS);
   const [financialSummary, setFinancialSummary] = useState(INITIAL_FINANCIAL_SUMMARY);
   const [beneficiaries, setBeneficiaries] = useState(INITIAL_BENEFICIARIES);
@@ -52,6 +60,30 @@ export default function App() {
   const [incidents, setIncidents] = useState(INITIAL_INCIDENTS);
   const [auditLogs, setAuditLogs] = useState(INITIAL_AUDIT_LOGS);
   const [securityScore, setSecurityScore] = useState(94);
+
+  // Hydrate data from backend REST API if available
+  useEffect(() => {
+    api.checkHealth()
+      .then(() => Promise.all([
+        api.getMe(),
+        api.getAccounts(),
+        api.getTransactions(),
+        api.getBeneficiaries(),
+        api.getAlerts(),
+        api.getIncidents(),
+        api.getAuditLogs()
+      ]))
+      .then(([userData, accData, txData, benData, alertData, incData, logData]) => {
+        if (userData?.user) setUser(userData.user);
+        if (accData?.accounts) setAccounts(accData.accounts);
+        if (txData?.transactions) setTransactions(txData.transactions);
+        if (benData?.beneficiaries) setBeneficiaries(benData.beneficiaries);
+        if (alertData?.alerts) setAlerts(alertData.alerts);
+        if (incData?.incidents) setIncidents(incData.incidents);
+        if (logData?.auditLogs) setAuditLogs(logData.auditLogs);
+      })
+      .catch((err) => console.log('[SmartBank AI] Standalone client mode active:', err.message));
+  }, []);
 
   // 4. Voice Assistant & Alert Modals State
   const [isVoiceAssistantOpen, setIsVoiceAssistantOpen] = useState(false);
@@ -262,6 +294,10 @@ export default function App() {
               incidents={incidents}
               securityScore={securityScore}
             />
+          )}
+
+          {activeTab === 'java-architecture' && (
+            <JavaArchitectureViewer />
           )}
         </main>
       </div>

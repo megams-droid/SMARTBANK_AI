@@ -2,8 +2,12 @@
 
 export const INITIAL_USER = {
   id: 'USR-8821',
-  name: 'Demo Customer',
-  email: 'customer@smartbank.ai',
+  name: 'MEGA SREE MS',
+  registerNumber: '711525BCS092',
+  institution: 'Kalaignarkarunanidhi Institute of Technology, Coimbatore',
+  department: 'Computer Science and Engineering (CSE-C)',
+  academicYear: '2025-2029',
+  email: 'megasree.711525bcs092@kit.ac.in',
   role: 'CUSTOMER', // CUSTOMER, ADMIN, ANALYST
   phone: '+91 98765 43210',
   accountNumber: 'SB-3091-8842-10',
